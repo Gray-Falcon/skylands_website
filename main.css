@@ -1,0 +1,126 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-image: url('https://i.postimg.cc/prTy6dmM/background.png');
+    background-size: cover; /* Ensures the image covers the entire background without stretching */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps the background fixed while scrolling */
+    
+    color: white;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
+
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+
+    text-transform: uppercase;
+    line-height: 1.5
+}
+
+.container-main { /* used to contain sections */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    padding: 10px;
+    margin: 5%;
+    margin-bottom: 12%;
+    border-bottom: 3px solid #6b6b6b;
+}
+
+
+.headline {
+    margin: 5%;
+    text-align: center;
+    font-size: 200%;
+}
+.headline-small {
+    margin: 2.5%;
+    text-align: center;
+    font-size: 150%;
+}
+
+.container-flex { /* contains icon+links */
+    background-color: #333;
+    padding-top: 2% ;
+    padding-bottom: 2% ;
+    display: flex;
+    justify-content: left;
+    width: 70%;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+    border: 3px solid #6b6b6b;
+    margin: 2.5%;
+}
+.container-general { /* for important text, <br> used to format new lines */
+    text-align: center;
+    background-color: #333;
+    padding-top: 2% ;
+    padding-bottom: 2% ;
+    width: 70%;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+    border: 3px solid #6b6b6b;
+    margin: 2.5%;
+}
+
+.icon-wrapper {
+    width: 20%;
+    min-width: 75px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.icon {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+}
+
+.link-wrapper {
+    width:  50%;
+    height: 10%;
+    padding: 0;
+    font-size: 100%;
+}
+.link {
+    color: rgb(159, 159, 255);  /* Normal state */
+}
+.link:visited {
+    color: rgb(159, 159, 255);  /* Visited state */
+}
+.link:hover {
+    color: red;
+}
+.link:active {
+    color: green;
+}
+
+.text {
+    margin: 2.5%;
+    text-align: center;
+    width: 80%;
+    font-size: 100%;
+}
+
+
+textarea {
+    resize: none;
+}
+
+
+table {
+    margin: 2.5%;
+    width: 80%;
+    border-collapse: collapse;
+    border: 2px solid white;
+    background-color: #333;
+}
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid white;
+}
+.latest {
+    background-color: green;
+}
