@@ -1,3 +1,9 @@
+html{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
 body{
     display: flex;
     flex-direction: column;
@@ -17,7 +23,12 @@ body{
     font-style: normal;
 
     text-transform: uppercase;
-    line-height: 1.5
+    line-height: 1.5;
+
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
 .container-main { /* used to contain sections */
@@ -36,12 +47,12 @@ body{
 .headline {
     margin: 5%;
     text-align: center;
-    font-size: 200%;
+    font-size: 150%;
 }
 .headline-small {
     margin: 2.5%;
     text-align: center;
-    font-size: 120%;
+    font-size: 125%;
 }
 
 .container-flex { /* contains icon+links */
