@@ -120,6 +120,7 @@ body{
 
 textarea {
     resize: none;
+    min-width: 320px;
 }
 
 
