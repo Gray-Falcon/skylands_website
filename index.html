@@ -3,29 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skylands website</title>
+    <title>Skylands home page</title>
 
+    <!-- thumbnail when posted somewhere -->
     <meta property="og:title" content="Skylands">
     <meta property="og:description" content="Sky islands terrain for minecraft.">
     <meta property="og:image" content="https://gray-falcon.github.io/skylands_website/skylands_icon.png">
 
+    <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     
+    <!-- css -->
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="menusidebar.css">
     <link rel="stylesheet" href="other.css">
 
+    <!-- cloudflare turnstile (rCaptcha) -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 </head>
 <body>
+
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
     <a href="https://discord.gg/99DUces7Gh" target="_blank"><img src="icon_discord.png" class="discord-btn"></a>
     <a href="https://www.youtube.com/channel/UCNmjcyOUzKybMeXUT_H9JPw" target="_blank"><img src="icon_youtube.png" class="youtube-btn"></a>
 
-    <div class="sidebar" id="sidebar">
 
+    <div class="sidebar" id="sidebar">
         <div class="menu-item"><a href="#sectionTop">Login</a></div>
         <div class="menu-item"><a href="#sectionMinecraftServer">MC Server</a></div>
         <div class="menu-item"><a href="#sectionWorldGeneration">World Generation</a></div>
@@ -35,14 +41,33 @@
         <img src="skylands_logo.png" class="skylands_logo">
         <img src="skylands_icon.png" class="skylands_icon">
         <h1 id="sectionTop" class="headline">HOME PAGE</h1>
-        <input id="email" type="text" value="Account system comming soon" class="login-inputs">
-        <input id="password" type="password" class="login-inputs">
+
+        <p id="registerSuggestion">Don't have an account? <span onclick="toggleAuthForm()" class="link">>>>Register</span></p>
+        <p id="loginSuggestion" style="display: none;">Already have an account? <span onclick="toggleAuthForm()" class="link">>>>Login</span></p>
+
+        <form id="loginForm" onsubmit="login(event)" class="form">
+            <input id="loginEmail" type="text" placeholder="Enter your email" class="form-input">
+            <input id="loginPassword" type="password" placeholder="Enter your password" class="form-input">
+            <button type="submit" class="form-button">Login</button>
+        </form>
+
+        <form id="registerForm" onsubmit="register(event)" class="form" style="display: none;">
+            <input id="registerEmail" type="text" placeholder="Enter your email" class="form-input">
+            <input id="mailCode" type="text" placeholder="Email code" class="form-input" style="width: 50%;">
+            <button id="codeButton" onclick="sendVerificationEmail(); buttonCooldown('codeButton')" class="form-button" style="width: 30%;">Send code</button>
+            <input id="registerPassword" type="password" placeholder="Enter your password" class="form-input">
+            <input id="registerPasswordConfirm" type="password" placeholder="Confirm your pasword" class="form-input">
+            <button type="submit" class="form-button">Register</button>
+        </form>
 
         <!-- Cloudflare Turnstile widget -->
         <div class="cf-turnstile" data-sitekey="0x4AAAAAABD2BIw2dkmjNzXs"></div>
 
-        <button onclick="login()" type="submit" class="login-button">Login</button>
-        <button onclick="register()" type="submit" class="login-button" style="width: 20%;">Register</button>
+
+        <div id="instructions" class="container-text important">
+
+        </div>
+
     </div>
 
 
@@ -55,7 +80,7 @@
                 <a href="#s" class="link">>>>comming soon</a>
             </div>
         </div>
-        <div class="text">
+        <div class="container-text">
             Come and play on Skylands minecraft server with other players all across the world.<br><br>
         </div>
     </div>
@@ -71,7 +96,7 @@
                 <a href="https://www.youtube.com/watch?v=-PqtdgBclx4&ab_channel=GrayFalcon" target="_blank" class="link">>>>Tutorial video </a><br><br>
             </div>
         </div>
-        <div class="text">
+        <div class="container-text">
             Skylands is configuration package for terra that generates floating islands terrain 
             featuring both vanilla and custom biomes in your minecraft world.<br><br>
             In theory Skylands pack is 100% configurable allowing you to edit anything.<br><br>
@@ -80,33 +105,107 @@
     </div>
 
 
+<script src="elements.js"></script>
+
+<script>
+    function instructions(html){
+        const element = document.getElementById('instructions');
+        element.innerHTML = html;
+    }
+    function toggleAuthForm() {
+        const loginForm = document.getElementById('loginForm');
+        const loginText = document.getElementById('registerSuggestion');
+        const registerForm = document.getElementById('registerForm');
+        const registerText = document.getElementById('loginSuggestion');
+
+        const loginVisible = loginForm.style.display !== 'none';
+        if (loginVisible) {
+            loginForm.style.display = 'none';
+            loginText.style.display = 'none';
+            registerForm.style.display = 'block';
+            registerText.style.display = 'block';
+
+            instructions(
+                `
+                Purchase something after you create your account.<br><br>
+                Accounts without any purchase will be automatically deleted after 48h.
+                `
+            );
+        } else {
+            loginForm.style.display = 'block';
+            loginText.style.display = 'block';
+            registerForm.style.display = 'none';
+            registerText.style.display = 'none';
+
+            instructions("");
+        }
+    }
+    
+
+    function buttonCooldown( id, time = 12){
+        const button = document.getElementById(id);
+        const originalText = button.textContent;
+        const originalColor = button.style.backgroundColor;
+
+        button.disabled = true;
+        button.textContent= `wait ${time}s`;
+        button.style.backgroundColor= 'gray';
+
+        const interval = setInterval(() => {
+            time--;
+            if (time > 0) {
+                button.textContent = `wait ${time}s`;
+            } else {
+                clearInterval(interval);
+                button.disabled = false;
+                button.textContent = originalText;
+                button.style.backgroundColor = originalColor;
+            }
+        }, 1000);
+    }
+
+</script>
+
+
     <script>
-        function toggleMenu() {
-            document.getElementById("sidebar").classList.toggle("active");
+
+
+// http://localhost:443/sendVerificationEmail
+// https://skylands.uk/sendVerificationEmail
+        async function sendVerificationEmail() {
+
+            const email = document.getElementById("registerEmail").value;
+
+            const serverResponse = await fetch("https://skylands.uk/sendVerificationEmail", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            let response = await serverResponse.json();
+            if (serverResponse.ok) {// handle success
+                alert("Verification code has been sent to your email.");
+                console.log(response);
+
+            } else {
+                alert(response.message || "Error");
+            }
         }
 
-        // Close sidebar when clicking outside of it
-        document.addEventListener('click', function(event) {
-            var sidebar = document.getElementById("sidebar");
-            var menuButton = document.querySelector(".menu-btn");
-            
-            if (!sidebar.contains(event.target) && !menuButton.contains(event.target)) {
-                sidebar.classList.remove("active");
-            }
-        });
-
-
-
-
-// http://localhost:8080/register
+// http://localhost:443/register
 // https://skylands.uk/register
-        async function register() {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+        async function register(event) {
+            event.preventDefault();
 
-            const turnstileToken = turnstile.getResponse(); // get the challenge response cloudflare
+            const email = document.getElementById("registerEmail").value;
+            const password = document.getElementById("registerPassword").value;
+            const passwordConfirmation = document.getElementById("registerPasswordConfirmation").value;
 
-            const response = await fetch("https://skylands.uk/register", {
+            const turnstileToken = turnstile.getResponse(); // get the rCaptcha response
+
+            const serverResponse = await fetch("https://skylands.uk/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -114,34 +213,39 @@
                 body: JSON.stringify({ email, password, "cf-turnstile-response": turnstileToken }),
             });
 
-            const data = await response.json();
-            if (response.ok) {
+            let response = await serverResponse.json();
+            if (serverResponse.ok) {// handle success
                 alert("Register successful!");
-                console.log(data); // Handle success (e.g., store JWT token)
+                console.log(response);
+
             } else {
-                alert(data.message || "register failed");
+                alert(response.message || "register failed");
             }
         }
-// http://localhost:8080/login
+// http://localhost:443/login
 // https://skylands.uk/login
-        async function login() {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+        async function login(event) {
+            event.preventDefault(); 
 
-            const response = await fetch("https://skylands.uk/login", {
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+
+            const turnstileToken = turnstile.getResponse(); // get the rCaptcha response
+
+            const serverResponse = await fetch("https://skylands.uk/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password, "cf-turnstile-response": turnstileToken }),
             });
 
-            const data = await response.json();
-            if (response.ok) {
+            let response = await serverResponse.json();
+            if (serverResponse.ok) {// handle success
                 alert("Login successful!");
-                console.log(data); // Handle success (e.g., store JWT token)
+                console.log(response);
             } else {
-                alert(data.message || "Login failed");
+                alert(response.message || "Login failed");
             }
         }
     </script>

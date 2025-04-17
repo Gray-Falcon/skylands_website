@@ -31,19 +31,7 @@ body{
     overflow-x: hidden;
 }
 
-.container-main { /* used to contain sections */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80%;
-    min-width: 320px;
-    padding: 10px;
-    margin: 5%;
-    margin-bottom: 12%;
-    border-bottom: 3px solid #6b6b6b;
-}
-
-
+/*/ TEXT STYLES */
 .headline {
     margin: 5%;
     text-align: center;
@@ -54,7 +42,30 @@ body{
     text-align: center;
     font-size: 125%;
 }
+@keyframes importantAnimation {
+    0% { color: rgb(255, 84, 84); }
+    50% { color: rgb(255, 255, 255); }
+    100% { color: rgb(255, 84, 84); }
+}
+.important {
+    animation: importantAnimation 3s infinite;
+}
 
+
+/*/ CONTAINERS */
+.container-main { /* used to contain sections */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    min-width: 320px;
+    max-width: 1200px;
+    margin-top: 6%;
+    margin-bottom: 6%;
+    border-bottom: 3px solid #6b6b6b;
+}
 .container-flex { /* contains icon+links */
     background-color: #333;
     padding-top: 2% ;
@@ -97,6 +108,8 @@ body{
     padding: 0;
     font-size: 100%;
 }
+/*/ ELEMENTS */
+
 .link {
     color: rgb(159, 159, 255);  /* Normal state */
 }
@@ -110,13 +123,12 @@ body{
     color: green;
 }
 
-.text {
+.container-text {
     margin: 2.5%;
     text-align: center;
     width: 80%;
     font-size: 100%;
 }
-
 
 textarea {
     resize: none;
@@ -139,3 +151,5 @@ th, td {
 .latest {
     background-color: green;
 }
+
+
