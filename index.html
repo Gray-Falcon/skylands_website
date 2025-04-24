@@ -26,6 +26,15 @@
 </head>
 <body>
 
+
+
+    <span onclick="stripeLink('test')" class="link">>>>Buy test</span>
+
+
+
+
+
+
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
     <a href="https://discord.gg/99DUces7Gh" target="_blank"><img src="icon_discord.png" class="discord-btn"></a>
     <a href="https://www.youtube.com/channel/UCNmjcyOUzKybMeXUT_H9JPw" target="_blank"><img src="icon_youtube.png" class="youtube-btn"></a>
@@ -48,25 +57,30 @@
         <form id="loginForm" onsubmit="login(event)" class="form">
             <input id="loginEmail" type="text" placeholder="Enter your email" class="form-input">
             <input id="loginPassword" type="password" placeholder="Enter your password" class="form-input">
-            <button type="submit" class="form-button">Login</button>
+            <button id="loginSubmit" type="submit" class="form-button">Login</button>
         </form>
 
         <form id="registerForm" onsubmit="register(event)" class="form" style="display: none;">
             <input id="registerEmail" type="text" placeholder="Enter your email" class="form-input">
-            <input id="mailCode" type="text" placeholder="Email code" class="form-input" style="width: 50%;">
-            <button id="codeButton" onclick="sendVerificationEmail(); buttonCooldown('codeButton')" class="form-button" style="width: 30%;">Send code</button>
+            <input id="emailVerificationCode" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Email code" class="form-input" style="width: 50%;">
+            <button id="codeButton" type="button" onclick="sendVerificationEmail()" class="form-button" style="width: 30%;">Send code</button>
             <input id="registerPassword" type="password" placeholder="Enter your password" class="form-input">
-            <input id="registerPasswordConfirm" type="password" placeholder="Confirm your pasword" class="form-input">
-            <button type="submit" class="form-button">Register</button>
+            <input id="registerPasswordConfirmation" type="password" placeholder="Confirm your pasword" class="form-input">
+            <button id="registerSubmit" type="submit" class="form-button">Register</button>
         </form>
 
         <!-- Cloudflare Turnstile widget -->
         <div class="cf-turnstile" data-sitekey="0x4AAAAAABD2BIw2dkmjNzXs"></div>
 
-
-        <div id="instructions" class="container-text important">
+        <div id="instructions" class="container-text redAnimation">
 
         </div>
+
+
+        <div>
+            
+        </div>
+
 
     </div>
 
@@ -90,9 +104,9 @@
         <div class="container-flex">
             <div class="icon-wrapper"><img src="icon_generation.png" class="icon"></div>
             <div class="link-container">
-                <a href="https://buy.stripe.com/28o01L2XSdPObBu8wy" target="_blank" class="link">>>>Buy Skylands</a><br><br>
-                <a href="https://terra.polydev.org/" target="_blank" class="link">>>>Terra docs</a><br><br>
+                <a href="https://buy.stripe.com/28o01L2XSdPObBu8wy" target="_blank" class="link buyAnimation">>>>Buy Skylands</a><br><br>
                 <a href="worldgen_wiki.html" target="_blank" class="link">>>>worldgen wiki</a><br><br>
+                <a href="https://terra.polydev.org/" target="_blank" class="link">>>>Terra docs</a><br><br>
                 <a href="https://www.youtube.com/watch?v=-PqtdgBclx4&ab_channel=GrayFalcon" target="_blank" class="link">>>>Tutorial video </a><br><br>
             </div>
         </div>
@@ -142,7 +156,7 @@
     }
     
 
-    function buttonCooldown( id, time = 12){
+    function buttonCooldown( id, time = 4){
         const button = document.getElementById(id);
         const originalText = button.textContent;
         const originalColor = button.style.backgroundColor;
@@ -164,19 +178,51 @@
         }, 1000);
     }
 
+    function blinkInput(id) {
+        document.getElementById(id).style.backgroundColor = 'tomato';
+        
+        setTimeout(() => {
+            document.getElementById(id).style.backgroundColor = 'white';
+        }, 200);
+        
+        setTimeout(() => {
+            document.getElementById(id).style.backgroundColor = 'tomato';
+        }, 400);
+    }
+
+
+
+
+
+
 </script>
 
 
     <script>
+        var myEmail = "";
 
 
-// http://localhost:443/sendVerificationEmail
+
+
+// http://localhost:8080/sendVerificationEmail
 // https://skylands.uk/sendVerificationEmail
         async function sendVerificationEmail() {
+//#region process inputs
+            let fail=false;
 
-            const email = document.getElementById("registerEmail").value;
+            const email = document.getElementById("registerEmail").value.toLowerCase().replace(/\s+/g, '');
+            document.getElementById("registerEmail").value = email;
+            if(/^\S+@\S+\.\S+$/.test(email) && email != "" && email.length<40){
+                document.getElementById("registerEmail").style.backgroundColor = 'white';
+            } else {
+                blinkInput("registerEmail");
+                fail=true;
+            }
 
-            const serverResponse = await fetch("https://skylands.uk/sendVerificationEmail", {
+            if(fail) return;
+//#endregion
+
+            const serverResponse = await fetch("http://localhost:8080/sendVerificationEmail", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -186,53 +232,111 @@
 
             let response = await serverResponse.json();
             if (serverResponse.ok) {// handle success
-                alert("Verification code has been sent to your email.");
-                console.log(response);
-
+                console.log("Verification code requested");
             } else {
-                alert(response.message || "Error");
+                alert(response.message);
+                console.log("ERROR while requesting verification code");
+                console.log(response.message);
             }
+            buttonCooldown('codeButton',45);
         }
 
-// http://localhost:443/register
+// http://localhost:8080/register
 // https://skylands.uk/register
         async function register(event) {
             event.preventDefault();
+            
+//#region process inputs
+            let fail=false;
 
-            const email = document.getElementById("registerEmail").value;
-            const password = document.getElementById("registerPassword").value;
-            const passwordConfirmation = document.getElementById("registerPasswordConfirmation").value;
+            const email = document.getElementById("registerEmail").value.toLowerCase().replace(/\s+/g, '');
+            document.getElementById("registerEmail").value = email;
+            if(/^\S+@\S+\.\S+$/.test(email) && email != "" && email.length<40){
+                document.getElementById("registerEmail").style.backgroundColor = 'white';
+            } else {
+                blinkInput("registerEmail");
+                fail=true;
+            }
+
+            const password = document.getElementById("registerPassword").value.replace(/\s+/g, '');
+            document.getElementById("registerPassword").value = password;
+            const registerPasswordConfirmation = document.getElementById("registerPasswordConfirmation").value.replace(/\s+/g, '');
+            document.getElementById("registerPasswordConfirmation").value = registerPasswordConfirmation;
+            if(password == registerPasswordConfirmation && password != "" && password.length<20){
+                document.getElementById("registerPassword").style.backgroundColor = 'white';
+                document.getElementById("registerPasswordConfirmation").style.backgroundColor = 'white';
+            } else {
+                blinkInput("registerPassword");
+                blinkInput("registerPasswordConfirmation");
+                fail=true;
+            }
+
+            const emailVerificationCode = document.getElementById("emailVerificationCode").value.replace(/\s+/g, '');
+            document.getElementById("emailVerificationCode").value = emailVerificationCode;
+            if(emailVerificationCode != ""){
+                document.getElementById("emailVerificationCode").style.backgroundColor = 'white';
+            } else {
+                blinkInput("emailVerificationCode");
+                fail=true;
+            }
+            if(fail) return;
+//#endregion
 
             const turnstileToken = turnstile.getResponse(); // get the rCaptcha response
 
-            const serverResponse = await fetch("https://skylands.uk/login", {
+            const serverResponse = await fetch("http://localhost:8080/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password, "cf-turnstile-response": turnstileToken }),
+                body: JSON.stringify({ email, password, emailVerificationCode, "cf-turnstile-response": turnstileToken }),
             });
 
             let response = await serverResponse.json();
             if (serverResponse.ok) {// handle success
-                alert("Register successful!");
-                console.log(response);
-
+                console.log('Registration requested');
+                if(response.message == email){
+                    console.log(response.message);
+                }
             } else {
-                alert(response.message || "register failed");
+                alert(response.message);
+                console.log('ERROR while requesting registration');
+                console.log(response.message);
             }
+            buttonCooldown('registerSubmit');
         }
-// http://localhost:443/login
+// http://localhost:8080/login
 // https://skylands.uk/login
         async function login(event) {
-            event.preventDefault(); 
+            event.preventDefault();
 
-            const email = document.getElementById("loginEmail").value;
-            const password = document.getElementById("loginPassword").value;
+// #region process inputs
+            let fail=false;
+
+            const email = document.getElementById("loginEmail").value.toLowerCase().replace(/\s+/g, '');
+            document.getElementById("loginEmail").value = email;
+            if(/^\S+@\S+\.\S+$/.test(email) && email != "" && email.length<40){
+                document.getElementById("loginEmail").style.backgroundColor = 'white';
+            } else {
+                blinkInput("loginEmail");
+                fail=true;
+            }
+
+            const password = document.getElementById("loginPassword").value.replace(/\s+/g, '');
+            document.getElementById("loginPassword").value = password;
+            if(password != "" && password.length<20){
+                document.getElementById("loginPassword").style.backgroundColor = 'white';
+            } else {
+                blinkInput("loginPassword");
+                fail=true;
+            }
+
+            if(fail) return;
+//#endregion
 
             const turnstileToken = turnstile.getResponse(); // get the rCaptcha response
 
-            const serverResponse = await fetch("https://skylands.uk/login", {
+            const serverResponse = await fetch("http://localhost:8080/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -242,12 +346,56 @@
 
             let response = await serverResponse.json();
             if (serverResponse.ok) {// handle success
-                alert("Login successful!");
-                console.log(response);
+                console.log("Login requested!");
+                if(response.message == email){
+                    console.log(response.message);
+                }
             } else {
-                alert(response.message || "Login failed");
+                alert(response.message);
+                console.log("ERROR while requesting login");
+                console.log(response.message);
+            }
+            buttonCooldown('loginSubmit');
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+        async function stripeLink(item) {
+
+            const serverResponse = await fetch("http://localhost:8080/stripeLink", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ myEmail, item}),
+            });
+
+            let response = await serverResponse.json();
+            if (serverResponse.ok) {// handle success
+                console.log("Stripe link requested!");
+                console.log(response.message);
+                window.open(response.message, "_blank");
+            } else {
+                alert(response.message);
+                console.log("ERROR while requesting stripeLink");
+                console.log(response.message);
             }
         }
+
+
+        
     </script>
 </body>
 </html>
