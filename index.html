@@ -28,6 +28,9 @@
 
 
 
+    <span onclick="stripeLink('test')" class="link">>>>Buy test</span>
+
+
 
 
 
@@ -219,7 +222,7 @@
             if(fail) return;
 //#endregion
 
-            const serverResponse = await fetch("http://localhost:8080/sendVerificationEmail", {
+            const serverResponse = await fetch("https://skylands.uk/sendVerificationEmail", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -281,7 +284,7 @@
 
             const turnstileToken = turnstile.getResponse(); // get the rCaptcha response
 
-            const serverResponse = await fetch("http://localhost:8080/register", {
+            const serverResponse = await fetch("https://skylands.uk/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -333,7 +336,7 @@
 
             const turnstileToken = turnstile.getResponse(); // get the rCaptcha response
 
-            const serverResponse = await fetch("http://localhost:8080/login", {
+            const serverResponse = await fetch("https://skylands.uk/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
