@@ -21,6 +21,7 @@ body{
     font-family: "Press Start 2P", system-ui;
     font-weight: 400;
     font-style: normal;
+    font-size: clamp(1px, 3vw, 15px);
 
     text-transform: uppercase;
     line-height: 1.5;
@@ -42,14 +43,23 @@ body{
     text-align: center;
     font-size: 125%;
 }
-@keyframes importantAnimation {
+@keyframes redAnimation {
     0% { color: rgb(255, 84, 84); }
     50% { color: rgb(255, 255, 255); }
     100% { color: rgb(255, 84, 84); }
 }
-.important {
-    animation: importantAnimation 3s infinite;
+.redAnimation {
+    animation: redAnimation 3s infinite;
 }
+@keyframes buyAnimation {
+    0% { color: rgb(249, 255, 84); }
+    50% { color: rgb(159, 159, 255); }
+    100% { color: rgb(249, 255, 84); }
+}
+.buyAnimation {
+    animation: buyAnimation 3s infinite;
+}
+
 
 
 /*/ CONTAINERS */
@@ -139,6 +149,7 @@ textarea {
 table {
     margin: 2.5%;
     width: 80%;
+    min-width: 320px;
     border-collapse: collapse;
     border: 2px solid white;
     background-color: #333;

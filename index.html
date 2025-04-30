@@ -118,7 +118,7 @@
         </div>
     </div>
 
-
+<script src="globalVariables.js"></script>
 <script src="elements.js"></script>
 
 <script>
@@ -199,9 +199,6 @@
 
 
     <script>
-        var myEmail = "";
-
-
 
 
 // http://localhost:8080/sendVerificationEmail
@@ -221,31 +218,34 @@
 
             if(fail) return;
 //#endregion
+            console.log('Verification code requested');
+            buttonCooldown('codeButton',45);
 
-            const serverResponse = await fetch("https://skylands.uk/sendVerificationEmail", {
+//#region server response
+            const serverResponse = await fetch(globalThis.domain + "/sendVerificationEmail", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ email }),
             });
+//#endregion
 
             let response = await serverResponse.json();
-            if (serverResponse.ok) {// handle success
-                console.log("Verification code requested");
+            if (serverResponse.ok) {
+                console.log(serverResponse);
             } else {
-                alert(response.message);
-                console.log("ERROR while requesting verification code");
+                console.log("ERROR while requesting verification code:");
                 console.log(response.message);
+                alert("ERROR while requesting verification code: " +response.message);
             }
-            buttonCooldown('codeButton',45);
         }
 
 // http://localhost:8080/register
 // https://skylands.uk/register
         async function register(event) {
             event.preventDefault();
-            
+
 //#region process inputs
             let fail=false;
 
@@ -281,30 +281,35 @@
             }
             if(fail) return;
 //#endregion
+            console.log('Register requested');
+            buttonCooldown('registerSubmit');
 
-            const turnstileToken = turnstile.getResponse(); // get the rCaptcha response
+//#region server response + turnstyle
+            const turnstileToken = turnstile.getResponse();
 
-            const serverResponse = await fetch("https://skylands.uk/register", {
+            const serverResponse = await fetch(globalThis.domain + "/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ email, password, emailVerificationCode, "cf-turnstile-response": turnstileToken }),
             });
+//#endregion
 
             let response = await serverResponse.json();
-            if (serverResponse.ok) {// handle success
-                console.log('Registration requested');
+            if (serverResponse.ok) {
                 if(response.message == email){
-                    console.log(response.message);
+                    globalThis.myEmail=email;
+                    console.log("Register successful");
+                    console.log("myEmail set to: " +globalThis.myEmail);
                 }
             } else {
-                alert(response.message);
-                console.log('ERROR while requesting registration');
+                console.log("ERROR while requesting register:");
                 console.log(response.message);
+                alert("ERROR while requesting register: " +response.message);
             }
-            buttonCooldown('registerSubmit');
         }
+
 // http://localhost:8080/login
 // https://skylands.uk/login
         async function login(event) {
@@ -333,29 +338,34 @@
 
             if(fail) return;
 //#endregion
+            console.log('Login requested');
+            buttonCooldown('loginSubmit');
 
-            const turnstileToken = turnstile.getResponse(); // get the rCaptcha response
+//#region server response + turnstyle
+            const turnstileToken = turnstile.getResponse();
 
-            const serverResponse = await fetch("https://skylands.uk/login", {
+            const serverResponse = await fetch(globalThis.domain + "/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ email, password, "cf-turnstile-response": turnstileToken }),
             });
+//#endregion
 
             let response = await serverResponse.json();
-            if (serverResponse.ok) {// handle success
-                console.log("Login requested!");
+            if (serverResponse.ok) {
                 if(response.message == email){
-                    console.log(response.message);
+                    globalThis.myEmail=email;
+                    console.log("Login successful");
+                    console.log("myEmail set to: " +globalThis.myEmail);
                 }
             } else {
-                alert(response.message);
-                console.log("ERROR while requesting login");
+                console.log("ERROR while requesting login:");
                 console.log(response.message);
+                alert("ERROR while requesting login: " +response.message);
             }
-            buttonCooldown('loginSubmit');
+            
         }
 
 
@@ -365,31 +375,25 @@
 
 
 
-
-
-
-
-
-        
-
         async function stripeLink(item) {
 
-            const serverResponse = await fetch("https://skylands.uk/stripeLink", {
+//#region server response
+            const serverResponse = await fetch(globalThis.domain + "/stripeLink", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ myEmail, item}),
             });
+//#endregion
 
             let response = await serverResponse.json();
             if (serverResponse.ok) {// handle success
-                console.log("Stripe link requested!");
-                console.log(response.message);
+                console.log("Stripe link successful!");
                 window.open(response.message, "_blank");
             } else {
                 alert(response.message);
-                console.log("ERROR while requesting stripeLink");
+                console.log("ERROR while requesting stripeLink" +response.message);
                 console.log(response.message);
             }
         }
