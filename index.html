@@ -28,7 +28,7 @@
 
 
 
-    <span onclick="stripeLink('test')" class="link">>>>Buy  test</span>
+    <span onclick="stripeLink('test')" class="link">>>>Buy test</span>
 
 
 
@@ -233,7 +233,7 @@
 
             let response = await serverResponse.json();
             if (serverResponse.ok) {
-                console.log(serverResponse);
+                console.log("Verification email successful");
             } else {
                 console.log("ERROR while requesting verification code:");
                 console.log(response.message);
@@ -376,14 +376,15 @@
 
 
         async function stripeLink(item) {
-
 //#region server response
+
+            console.log("email for stripe link: " +globalThis.myEmail);
             const serverResponse = await fetch(globalThis.domain + "/stripeLink", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ myEmail, item}),
+                body: JSON.stringify({ email: globalThis.myEmail, item}),
             });
 //#endregion
 
