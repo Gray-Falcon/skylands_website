@@ -359,15 +359,11 @@
                     globalThis.myEmail=email;
                     console.log("Login successful");
 
-                    console.log("typeof myEmail:", typeof globalThis.myEmail); // should be 'string'
-                    console.log("myEmail ==", globalThis.myEmail);             // separate from concat
-                    console.log("myEmail set to: " + globalThis.myEmail);      // the original version
-
-                    console.log(globalThis);
-
-                    Object.getOwnPropertyDescriptor(globalThis, 'myEmail');
+                    console.log(`[${ts}] before globalthis command`);
 
                     console.log("myEmail set to: " +globalThis.myEmail);
+
+                    console.log(`[${ts}] after globalthis command`);
                 }
             } else {
                 console.log("ERROR while requesting login:");
