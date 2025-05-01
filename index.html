@@ -358,11 +358,11 @@
                 if(response.message == email){
                     globalThis.myEmail=email;
                     console.log("Login successful");
-
+                    let ts = Date.now();
                     console.log(`[${ts}] before globalthis command`);
 
                     console.log("myEmail set to: " +globalThis.myEmail);
-
+                    let ts = Date.now();
                     console.log(`[${ts}] after globalthis command`);
                 }
             } else {
