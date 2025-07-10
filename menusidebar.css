@@ -1,41 +1,26 @@
-.profile-container {
+.discord-btn {
     position: fixed;
     top: 20px;
-    right: 0.5%;
-    width: clamp(57px, 9%, 70px);;
+    right: 3%;
+    width: 40px;
+    aspect-ratio: 1 / 1;
     z-index: 9999;
-    text-decoration: none;
-    color: white;
-    text-align: center;
 }
 
-.profile-icon {
-    width: 70%;
+.youtube-btn {
+    position: fixed;
+    top: 70px;
+    right: 3%;
+    width: 40px;
     aspect-ratio: 1 / 1;
-    object-fit: contain;
-}
-
-.profile-label {
-    font-size: 80%
-
-}
-
-
-
-
-
-.icon {
-    width: 7%;
-    min-width: 50px;
-    aspect-ratio: 1 / 1;
-    margin: 1%;
+    z-index: 9999;
 }
 
 /* Menu button */
 .menu-btn {
     position: fixed;
-    top: 20px;
-    left: 2%;
+    top: 3%;
+    left: 3%;
     font-size: 24px;
     background: black;
     border: 2px solid black;

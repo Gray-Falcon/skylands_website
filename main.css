@@ -21,7 +21,7 @@ body{
     font-family: "Press Start 2P", system-ui;
     font-weight: 400;
     font-style: normal;
-    font-size: smaller;
+    font-size: clamp(1px, 3vw, 15px);
 
     text-transform: uppercase;
     line-height: 1.5;
@@ -35,11 +35,13 @@ body{
 /*/ TEXT STYLES */
 .headline {
     margin: 5%;
-    font-size: large;
+    text-align: center;
+    font-size: 150%;
 }
 .headline-small {
     margin: 2.5%;
-    font-size: larger;
+    text-align: center;
+    font-size: 125%;
 }
 @keyframes redAnimation {
     0% { color: rgb(255, 84, 84); }
@@ -72,6 +74,7 @@ body{
     max-width: 1200px;
     margin-top: 6%;
     margin-bottom: 6%;
+    border-bottom: 3px solid #6b6b6b;
 }
 .container-flex { /* contains icon+links */
     background-color: #333;
@@ -97,20 +100,19 @@ body{
     margin: 2.5%;
 }
 
-.thumbnail-wrapper {
+.icon-wrapper {
     width: 20%;
     min-width: 75px;
     margin-left: 5%;
     margin-right: 5%;
 }
-.thumbnail {
+.icon {
     width: 100%;
     aspect-ratio: 1 / 1;
 
 }
 
 .link-wrapper {
-    text-align: left;
     width:  50%;
     height: 10%;
     padding: 0;
@@ -159,21 +161,6 @@ th, td {
 }
 .latest {
     background-color: green;
-}
-
-
-
-
-
-
-
-
-.my-footer {
-    background-color: #333;
-    width: 100%;
-    padding: 5%;
-    text-align: center;
-    border-top: 3px solid #6b6b6b;
 }
 
 
