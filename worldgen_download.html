@@ -16,51 +16,105 @@
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="menusidebar.css">
     <link rel="stylesheet" href="other.css">
+    <style>
+        .description {
+          color: rgba(255, 255, 255, 0.5); /* used in table from server */
+        }
+    </style>
 </head>
 <body>
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <a href="https://discord.gg/99DUces7Gh" target="_blank"><img src="icon_discord.png" class="discord-btn"></a>
-    <a href="https://www.youtube.com/channel/UCNmjcyOUzKybMeXUT_H9JPw" target="_blank"><img src="icon_youtube.png" class="youtube-btn"></a>
+    <div style="text-align: center;">
+        <a href="https://discord.gg/99DUces7Gh" target="_blank"><img src="icon_discord.png" class="icon"></a>
+        <a href="https://www.youtube.com/channel/UCNmjcyOUzKybMeXUT_H9JPw" target="_blank"><img src="icon_youtube.png" class="icon"></a>
+    </div>
 
     <div class="sidebar" id="sidebar">
 
-        <div class="menu-item"><a href="#sectionInstallation">Installation</a></div>
-        <div class="menu-item"><a href="#sectionUpdating">Updating</a></div>
-        <div class="menu-item"><a href="#sectionModifying">Modifying</a></div>
+        <div class="menu-item"><a href="#sectionInstallation">Download</a></div>
 
     </div>
 
 
 
-
-
-    <div class="container-main">
-        <table>
-            <tr>
-                <td>Minecraft version</td>
-                <td>Skylands version</td>
-                <td>Available Software</td>
-            </tr>
-            <tr class="latest">
-                <td>1.21.1</td>
-                <td>3.0</td>
-                <td>Download</td>
-            </tr>
-            <tr>
-                <td colspan="3">description</td>
-            </tr>
-        </table>
+    <p class="headline">SKYLANDS DOWNLOAD PAGE</p>
+    <div id="table" class="container-main">
+        <p class="headline-small">
+            It looks like you haven't purchased Skylands yet. 
+            Please buy Skylands to gain access to download links for all available versions. 
+            Your purchase helps support the continued development of Skylands network.<br><br>
+            Thank you for your support!
+        </p>
+        <span id="paymentLink" onclick="stripeLink('skylands')" class="link" style="display: none;">>>>Buy Skylands</span>
+        <p id="message" class="redAnimation">
+            Looks like you are not logged into any account. <br>
+            You must register or log in on skylands home page to purchase.
+        </p>
     </div>
 
 
 
-
-
-
-
+    <script src="globalVariables.js"></script>
 
 
     <script src="elements.js"></script>
+    <script>
+
+        function giveLink() {
+            if (!globalThis.myEmail) {
+                if (tableElement) {
+                    const paymentLink = document.getElementById("paymentLink");
+                    const message = document.getElementById("message");
+                    if (paymentLink) {
+                        paymentLink.style.display = "block";
+                        message.style.display = "none";
+                    }
+                }
+            }
+        }
+        giveLink();
+
+
+
+        function loadTable() {
+            document.getElementById('table').innerHTML = globalThis.skylands;
+        }
+        if (globalThis.skylands) {
+                loadTable();
+        } else {
+            skylandsTable()
+        }
+
+
+
+
+
+        async function skylandsTable() {
+//#region request
+
+            console.log("Email for skylands table request: " +globalThis.myEmail);
+            const serverResponse = await fetch(globalThis.domain + "/skylandsTable", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email: globalThis.myEmail, password: "111" }),
+            });
+//#endregion
+
+            let response = await serverResponse.json();
+            if (serverResponse.ok) {// handle success
+                console.log("Skylands table successful!");
+                globalThis.skylands = response.message;
+                loadTable();
+            } else {
+                alert(response.message);
+                console.log("ERROR while requesting skylands table" +response.message);
+                console.log(response.message);
+            }
+        }
+    </script>
+
 
 </body>
 </html>
