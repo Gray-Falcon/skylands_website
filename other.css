@@ -1,0 +1,46 @@
+.skylands_logo {
+    width: 70%;
+    aspect-ratio: 4206 / 794;
+}
+.skylands_icon {
+    width: 30%;
+    aspect-ratio: 1 / 1;
+}
+
+
+.form {
+    width: 50%;
+    min-width: 300px;
+    display: inline;
+    margin: 2%
+}
+.form-input {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    box-sizing: border-box;  /* ensures padding doesn't expand input */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    float: left;
+}
+.form-button {
+    width: 80%;
+    max-width: 300px;
+    padding: 10px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    transition: transform 0.1s ease;
+}
+.form-button:hover {
+    transform: scale(1.1);
+}
+.form-button:active {
+    transform: scale(1);
+}

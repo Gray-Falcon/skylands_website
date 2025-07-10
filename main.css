@@ -1,0 +1,166 @@
+html{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-image: url('https://i.postimg.cc/prTy6dmM/background.png');
+    background-size: cover; /* Ensures the image covers the entire background without stretching */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps the background fixed while scrolling */
+    
+    color: white;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
+
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: clamp(1px, 3vw, 15px);
+
+    text-transform: uppercase;
+    line-height: 1.5;
+
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/*/ TEXT STYLES */
+.headline {
+    margin: 5%;
+    text-align: center;
+    font-size: 150%;
+}
+.headline-small {
+    margin: 2.5%;
+    text-align: center;
+    font-size: 125%;
+}
+@keyframes redAnimation {
+    0% { color: rgb(255, 84, 84); }
+    50% { color: rgb(255, 255, 255); }
+    100% { color: rgb(255, 84, 84); }
+}
+.redAnimation {
+    animation: redAnimation 3s infinite;
+}
+@keyframes buyAnimation {
+    0% { color: rgb(249, 255, 84); }
+    50% { color: rgb(159, 159, 255); }
+    100% { color: rgb(249, 255, 84); }
+}
+.buyAnimation {
+    animation: buyAnimation 3s infinite;
+}
+
+
+
+/*/ CONTAINERS */
+.container-main { /* used to contain sections */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    min-width: 320px;
+    max-width: 1200px;
+    margin-top: 6%;
+    margin-bottom: 6%;
+    border-bottom: 3px solid #6b6b6b;
+}
+.container-flex { /* contains icon+links */
+    background-color: #333;
+    padding-top: 2% ;
+    padding-bottom: 2% ;
+    display: flex;
+    justify-content: left;
+    width: 70%;
+    min-width: 320px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+    border: 3px solid #6b6b6b;
+    margin: 2.5%;
+}
+.container-general { /* for important text, <br> used to format new lines */
+    text-align: center;
+    background-color: #333;
+    padding-top: 2% ;
+    padding-bottom: 2% ;
+    width: 70%;
+    min-width: 320px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+    border: 3px solid #6b6b6b;
+    margin: 2.5%;
+}
+
+.icon-wrapper {
+    width: 20%;
+    min-width: 75px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.icon {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+}
+
+.link-wrapper {
+    width:  50%;
+    height: 10%;
+    padding: 0;
+    font-size: 100%;
+}
+/*/ ELEMENTS */
+
+.link {
+    color: rgb(159, 159, 255);  /* Normal state */
+}
+.link:visited {
+    color: rgb(159, 159, 255);  /* Visited state */
+}
+.link:hover {
+    color: red;
+}
+.link:active {
+    color: green;
+}
+
+.container-text {
+    margin: 2.5%;
+    text-align: center;
+    width: 80%;
+    font-size: 100%;
+}
+
+textarea {
+    resize: none;
+    min-width: 320px;
+}
+
+
+table {
+    margin: 2.5%;
+    width: 80%;
+    min-width: 320px;
+    border-collapse: collapse;
+    border: 2px solid white;
+    background-color: #333;
+}
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid white;
+}
+.latest {
+    background-color: green;
+}
+
+
