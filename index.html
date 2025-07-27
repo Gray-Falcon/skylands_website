@@ -73,7 +73,7 @@
         <div class="container-flex">
             <div class="thumbnail-wrapper"><img src="thumbnail_generation.png" class="thumbnail"></div>
             <div class="link-wrapper">
-                <a href="https://buy.stripe.com/28o01L2XSdPObBu8wy" target="_blank" class="link">>>> BUY Skylands</a><br><br>
+                <a href="worldgen_download.html" target="_blank" class="link">>>> Download Skylands</a><br><br>
                 <a href="worldgen_wiki.html" target="_blank" class="link">>>>worldgen wiki</a><br><br>
                 <a href="https://terra.polydev.org/" target="_blank" class="link">>>>Terra docs</a><br><br>
                 <a href="https://www.youtube.com/watch?v=-PqtdgBclx4&ab_channel=GrayFalcon" target="_blank" class="link">>>>Tutorial video </a><br><br>
@@ -92,31 +92,7 @@
 
 
 
-    <script>
-        async function stripeLink(item) {
-//#region request
 
-            console.log("email for stripe link: " +globalThis.myEmail);
-            const serverResponse = await fetch(globalThis.domain + "/stripeLink", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email: globalThis.myEmail, item}),
-            });
-//#endregion
-
-            let response = await serverResponse.json();
-            if (serverResponse.ok) {// handle success
-                console.log("Stripe link successful!");
-                window.open(response.message, "_blank");
-            } else {
-                alert(response.message);
-                console.log("ERROR while requesting stripeLink" +response.message);
-                console.log(response.message);
-            }
-        }
-    </script>
 </body>
 
 

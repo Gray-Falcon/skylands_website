@@ -56,8 +56,8 @@
             
         </div>
 
-        <div id="loggedInShow" style="display:none">
-            you are logged in
+        <div id="loggedInShow" style="display:none" style="width: 80%;">
+            you are logged in 
         </div>
 
 
@@ -71,7 +71,20 @@
 
 
     <script>
-        
+        setInterval(() => {
+            if (globalThis.myEmail && globalThis.myPassword) {
+                const loggedInHide = document.getElementById("loggedInHide");
+                const loggedInShow = document.getElementById("loggedInShow");
+
+                loggedInHide.style.display = "none";
+                loggedInShow.style.display = "block";
+
+                loggedInShow.textContent = 
+                `You are logged in with email ${globalThis.myEmail}.
+                To log out please close browser or all skylands tabs.`;
+            }
+        }, 1000);
+
 
 
         function instructions(text){
@@ -138,6 +151,7 @@
 
 
 <script>
+    console.log("myEmail is set to: " +globalThis.myEmail);
 
     async function verificationEmail() {
 //#region process inputs
@@ -202,7 +216,7 @@ buttonCooldown('codeButton',45);
             document.getElementById("registerPassword").value = password;
             const registerPasswordConfirmation = document.getElementById("registerPasswordConfirmation").value.replace(/\s+/g, '');
             document.getElementById("registerPasswordConfirmation").value = registerPasswordConfirmation;
-            if(password == registerPasswordConfirmation && password != "" && password.length<20){
+            if(password == registerPasswordConfirmation && password != "" && password.length<26){
                 document.getElementById("registerPassword").style.backgroundColor = 'white';
                 document.getElementById("registerPasswordConfirmation").style.backgroundColor = 'white';
             } else {
@@ -274,7 +288,7 @@ buttonCooldown('registerSubmit');
 
         const password = document.getElementById("loginPassword").value.replace(/\s+/g, '');
         document.getElementById("loginPassword").value = password;
-        if(password != "" && password.length<20){
+        if(password != "" && password.length<26){
             document.getElementById("loginPassword").style.backgroundColor = 'white';
         } else {
             blinkInput("loginPassword");
@@ -319,5 +333,8 @@ buttonCooldown('registerSubmit');
 
 
 </script>
+
+
+
 
 </body>
